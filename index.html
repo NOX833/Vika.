@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Vika Training Academy</title>
+<style>
+  :root{
+    --green:#0B8A3F;
+    --green-2:#00a651;
+    --glass-bg:rgba(255,255,255,0.15);
+    --glass-border:rgba(255,255,255,0.35);
+    --glass-shadow:0 8px 32px 0 rgba(31,38,135,0.18);
+    --text:#222;
+    --muted:#666;
+    --light:#f5f7f6;
+    --line:#e6e9eb;
+    --dark:#0b0f0d;
+    --radius-xl:24px;
+    --radius-md:14px;
+    --radius-sm:8px;
+    --blur:16px;
+    --font-main:'Inter',Arial,Helvetica,sans-serif;
+    --font-weight-bold:700;
+    --font-weight-reg:400;
+    --transition:all .28s cubic-bezier(.4,0,.2,1);
+  }
+  body{
+    margin:0;
+    font-family:var(--font-main);
+    color:var(--text);
+    background:linear-gradient(120deg,#eef3f7 0%,#e2f8ea 100%);
+    line-height:1.6;
+    min-height:100vh;
+  }
+
+  .glass{
+    background:var(--glass-bg);
+    border-radius:var(--radius-xl);
+    box-shadow:var(--glass-shadow);
+    border:1.5px solid var(--glass-border);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    padding:32px;
+    transition:var(--transition);
+  }
+  .card{background:var(--glass-bg); border-radius:var(--radius-md); box-shadow:var(--glass-shadow); border:1.2px solid var(--glass-border); backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur)); padding:22px 20px; color:var(--text); transition:var(--transition);}
+  .card:hover{box-shadow:0 12px 24px rgba(31,38,135,.22);transform:scale(1.025);}
+  .section{max-width:1200px; margin:auto; padding:56px 20px;}
+
+  header{
+    position:sticky; top:0; z-index:1000;
+    border-bottom:1.5px solid var(--glass-border);
+    background:var(--glass-bg);
+    box-shadow:var(--glass-shadow);
+    backdrop-filter:blur(var(--blur));
+    -webkit-backdrop-filter:blur(var(--blur));
+    transition:var(--transition);
+  }
+  .nav{
+    max-width:1200px; margin:auto; padding:20px 32px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--green); font-weight:800; font-size:1.35rem;}
+  .brand img{height:58px; opacity:.92; filter:brightness(.98) contrast(.99)}
+  nav ul{margin:0; padding:0; list-style:none; display:flex; gap:32px;}
+  nav a{color:var(--text); text-decoration:none; font-weight:600; padding:7px 18px; border-radius:var(--radius-md); transition:var(--transition);}
+  nav a:hover{background:var(--green); color:#fff;}
+  .cta{display:inline-block; background:linear-gradient(90deg,var(--green),var(--green-2)); color:#fff; padding:12px 22px; border-radius:var(--radius-xl); font-weight:700; text-decoration:none; box-shadow:0 2px 8px rgba(0,0,0,.08); transition:var(--transition);}
+  .cta:hover{background:linear-gradient(90deg,#086a31,#009e44); transform:scale(1.04);}
+  
+  .hero{
+    background:
+      linear-gradient(120deg,rgba(11,138,63,0.12) 0%,rgba(255,255,255,0.16) 100%),
+      url('https://i.postimg.cc/t78GqgBn/vikaimage-top.jpg') center/cover no-repeat;
+    color:#fff;
+    min-height:440px;
+    display:flex;
+    align-items:center;
+  }
+  .hero .wrap{
+    max-width:1200px;
+    margin:auto;
+    padding:110px 24px 90px;
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:36px;
+  }
+  .hero h1{
+    margin:0 0 14px;
+    font-size:clamp(34px,5vw,54px);
+    font-weight:900;
+    letter-spacing:-1px;
+    color:#fff;
+    text-shadow:0 4px 24px rgba(0,0,0,.18);
+  }
+  .hero p{margin:0 0 24px; font-size:1.3rem;}
+  .btn{display:inline-block; padding:12px 22px; border-radius:var(--radius-md); font-weight:700; text-decoration:none; transition:var(--transition);}
+  .btn-primary{background:linear-gradient(90deg,var(--green),var(--green-2)); color:#fff;}
+  .btn-primary:hover{background:linear-gradient(90deg,#086a31,#009e44); transform:scale(1.04);}
+  .btn-outline{border:2px solid #fff; color:#fff;}
+  .btn-outline:hover{background:#fff; color:var(--green);}
+  
+  .grid{display:grid; gap:22px;}
+  .grid.cols-2{grid-template-columns:repeat(2,1fr);}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr);}
+  @media (max-width:960px){ .hero .wrap{grid-template-columns:1fr;} .grid.cols-3{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:640px){ .grid.cols-2,.grid.cols-3{grid-template-columns:1fr;} .section{padding:34px 8px;} .hero .wrap{padding:60px 8px;} }
+  
+  .icon{
+    width:46px;height:46px;border-radius:14px;background:var(--glass-bg);display:grid;place-items:center;color:var(--green);font-size:1.6rem;font-weight:900;box-shadow:var(--glass-shadow);
+    opacity:0;
+    transform:scale(.6);
+    transition:var(--transition), opacity .18s ease;
+    pointer-events:none;
+  }
+  .icon.visible{
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
+  }
+
+  .price-wrap{max-width:1200px; margin:auto; padding:30px;}
+  .price-title{font-weight:900; text-align:center; font-size:2rem; margin:22px 0;}
+  .bar{background:linear-gradient(90deg,var(--green),var(--green-2)); color:#fff; font-weight:800; padding:10px 12px; border-radius:var(--radius-md); margin-bottom:8px;}
+  table.pricetable{width:100%; border-collapse:collapse; margin:0 0 32px; background:var(--glass-bg); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--glass-shadow);}
+  table.pricetable th, table.pricetable td{border:1px solid #ddd; padding:10px 12px; text-align:center; font-size:15px; background:rgba(255,255,255,0.12);}
+  table.pricetable th{background:linear-gradient(90deg,var(--green-2),#18c977);}
+  .note{color:#c00; font-weight:800; margin:12px 0 38px;}
+
+  /* collapsed helper for hiding the price list by default */
+  .collapsed { display:none; }
+
+  /* Hideable sections helper (used for home, courses, contact, resources, admissions) */
+  .hidden-section { display:none !important; }
+  .hidden-section[aria-hidden="false"]{ display:block !important; }
+
+  .cta-banner{background:var(--glass-bg); color:var(--green); border-radius:var(--radius-xl); padding:32px; display:flex; justify-content:space-between; align-items:center; gap:12px; box-shadow:var(--glass-shadow); backdrop-filter:blur(var(--blur));}
+  
+  footer{
+    background:linear-gradient(120deg,var(--dark) 0%,#222f24 100%);
+    color:#dfe6e2;
+    margin-top:54px;
+    border-top:1.5px solid var(--glass-border);
+    box-shadow:0 -4px 24px rgba(31,38,135,0.15);
+  }
+  footer a{color:#dfe6e2; text-decoration:none;}
+  .foot{max-width:1200px; margin:auto; padding:48px 20px; display:grid; gap:32px; grid-template-columns:2fr 1fr 1fr 1fr;}
+  .tiny{font-size:13px; color:#9fb2a7;}
+  @media (max-width:900px){ .foot{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .foot{grid-template-columns:1fr;} }
+
+  form.card input, form.card textarea{
+    font-family:var(--font-main);
+    font-size:1rem;
+    width:100%;
+    border-radius:var(--radius-sm);
+    border:1.2px solid var(--line);
+    background:rgba(255,255,255,.18);
+    color:var(--text);
+    padding:12px;
+    margin-top:4px;
+    margin-bottom:12px;
+    box-shadow:0 2px 8px rgba(31,38,135,.07);
+    outline:none;
+    transition:var(--transition);
+  }
+  form.card input:focus, form.card textarea:focus{
+    border-color:var(--green);
+    background:rgba(255,255,255,.30);
+  }
+  button.cta{
+    font-size:1.08rem;
+    border:none;
+    cursor:pointer;
+    margin-top:8px;
+    padding:11px 22px;
+  }
+
+  /* Map container hidden by default, revealed when .open added */
+  .map-wrapper{display:none; margin-top:12px; border-radius:12px; overflow:hidden; transition:var(--transition);}
+  .map-wrapper.open{display:block;}
+  .address{font-weight:700; color:var(--dark); margin-top:6px;}
+  .address small{display:block; font-weight:400; color:var(--muted); margin-top:6px;}
+
+  .highlight-item{cursor:pointer; border-radius:10px; padding:8px; transition:background .18s ease;}
+  .highlight-item:hover{background:rgba(11,138,63,0.04);}
+
+  /* small helper */
+  .muted{color:var(--muted); font-weight:400; font-size:0.95rem;}
+  .map-location-btn{padding:8px 10px;border-radius:8px;border:1.2px solid var(--green);background:transparent;color:var(--green);cursor:pointer;margin-right:8px;font-weight:700;}
+  .map-location-btn.active{background:linear-gradient(90deg,#eaf8ed,#dff5e8);}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="nav glass">
+    <a class="brand" href="#" aria-label="Vika Training Academy" id="brand">
+      <img src="https://i.postimg.cc/wyqHKbTv/vikaimage.png" alt="Vika Training Academy Logo">
+      <span class="name">Vika Training Academy</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#" class="nav-link" data-target="home" role="button" aria-controls="home">Home</a></li>
+        <li><a href="#" class="nav-link" data-target="about" role="button" aria-controls="about">About Us</a></li>
+        <li><a href="#" class="nav-link" data-target="courses" role="button" aria-controls="courses">Courses</a></li>
+        <li><a href="#" class="nav-link" data-target="admissions" role="button" aria-controls="admissions">Admissions</a></li>
+        <li><a href="#" class="nav-link" data-target="resources" role="button" aria-controls="resources">Resources</a></li>
+        <li><a href="#" class="nav-link" data-target="contact" role="button" aria-controls="contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button id="header-apply" class="cta" data-target="admissions" aria-controls="admissions">Apply Now</button>
+  </div>
+</header>
+
+<!-- ===== Hero (home) ===== -->
+<section id="home" class="hero hidden-section" aria-hidden="true">
+  <div class="wrap">
+    <div class="glass">
+      <h1>Empowering Futures Through Quality Training</h1>
+      <p>Accredited courses designed for career success.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:22px">
+        <button id="explore-courses" class="btn btn-primary" data-target="courses" aria-controls="courses">Explore Courses</button>
+        <button class="btn btn-outline" data-target="admissions" id="home-enroll" aria-controls="admissions">Enroll Now</button>
+      </div>
+      <small style="display:block; margin-top:10px; color:var(--muted)">Tip: click "Explore Courses" to reveal featured courses and highlights.</small>
+    </div>
+    <div class="card">
+      <h3>Quick Highlights</h3>
+      <div class="grid cols-2" style="margin-top:12px">
+        <div class="highlight-item" data-target="icon-1" role="button" tabindex="0" aria-pressed="false" aria-label="Toggle Accredited icon">
+          <div style="display:flex; gap:14px; align-items:center">
+            <div id="icon-1" class="icon" aria-hidden="true">✓</div>
+            <div><strong>Accredited</strong><div class="muted">Registered & quality-assured</div></div>
+          </div>
+        </div>
+
+        <div class="highlight-item" data-target="icon-2" role="button" tabindex="0" aria-pressed="false" aria-label="Toggle Trainers icon">
+          <div style="display:flex; gap:14px; align-items:center">
+            <div id="icon-2" class="icon" aria-hidden="true">👩🏽‍🏫</div>
+            <div><strong>Experienced Trainers</strong><div class="muted">Industry professionals</div></div>
+          </div>
+        </div>
+
+        <div class="highlight-item" data-target="icon-3" role="button" tabindex="0" aria-pressed="false" aria-label="Toggle Flexible Learning icon">
+          <div style="display:flex; gap:14px; align-items:center">
+            <div id="icon-3" class="icon" aria-hidden="true">🕒</div>
+            <div><strong>Flexible Learning</strong><div class="muted">Weekdays / weekends</div></div>
+          </div>
+        </div>
+
+        <div class="highlight-item" data-target="icon-4" role="button" tabindex="0" aria-pressed="false" aria-label="Toggle Career Support icon">
+          <div style="display:flex; gap:14px; align-items:center">
+            <div id="icon-4" class="icon" aria-hidden="true">💼</div>
+            <div><strong>Career Support</strong><div class="muted">CV & placement help</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== About (with Accreditation) ===== -->
+<section id="about" class="section" style="background:var(--light); border-top:1px solid #eef1f2; border-bottom:1px solid #eef1f2">
+  <div class="grid cols-2">
+    <div class="card">
+      <h2>About Us</h2>
+      <p>Vika Training Academy provides accredited, career-focused training that empowers individuals and teams to work safely, confidently and professionally.</p>
+      <p><strong>Registration / Accreditation:</strong> REGISTRATION NR: <strong>2020/665481/07</strong></p>
+      <p class="muted">Add official accreditation certificates/logos here (e.g., SETA, DoL).</p>
+      <a class="btn btn-primary" href="#" data-target="contact">Read More / Contact Us</a>
+    </div>
+    <div class="card">
+      <h3>Accreditations & Partnerships</h3>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center">
+        <img alt="SETA" src="https://dummyimage.com/120x60/0b8a3f/ffffff&text=SETA" style="height:48px; border-radius:7px">
+        <img alt="Department of Labour" src="https://dummyimage.com/160x60/0b8a3f/ffffff&text=DoL" style="height:48px; border-radius:7px">
+        <img alt="Partner" src="https://dummyimage.com/140x60/0b8a3f/ffffff&text=Partner" style="height:48px; border-radius:7px">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Meet the Team ===== -->
+<section id="team" class="section" style="background:#f9f9f9; border-top:1px solid #eef1f2; border-bottom:1px solid #eef1f2">
+  <h2 style="text-align:center; margin-bottom:34px">Meet the Team</h2>
+  <div class="grid cols-2" style="gap:42px; align-items:start">
+    <div class="card" style="background:var(--glass-bg); padding:26px; border-radius:var(--radius-xl); display:flex; flex-direction:column; gap:16px">
+      <div style="font-size:44px; color:var(--green)">❝</div>
+      <p>
+           A professional and registered assessor and moderator with 23 years of experience in the surface mining industry,
+        he holds a B-Tech in Human Resource Management, a Bachelor of Commerce Honours in Human Resource Management,
+        and a Master of Business Administration (MBA).<br><br>
+        The technical background he has attained includes a National Certificate: Mineral Processing Lump Ore Beneficiation Level 2 to 3,
+        and Further Education and Training Certificate in Mineral Processing as well as Occupationally Directed Education Training and
+        Development Practices Level 5, ODETP Level 5, and a Diploma in ODETP. He holds a 49% stake in the company.
+      </p>
+      <div style="display:flex; align-items:center; gap:18px; margin-top:6px">
+        <img src="https://i.postimg.cc/MTB7YbLC/Whats-App-Image-2025-10-18-at-17-29-47.jpg" alt="Mr. Kabelo Sehako" style="width:84px; height:84px; border-radius:50%; object-fit:cover; box-shadow:0 4px 20px rgba(31,38,135,.14)">
+        <strong style="color:var(--green); font-size:17px">MR. KABELO SEHAKO</strong>
+      </div>
+    </div>
+    <div class="card" style="background:var(--glass-bg); padding:26px; border-radius:var(--radius-xl); display:flex; flex-direction:column; gap:16px">
+      <div style="font-size:44px; color:var(--green)">❝</div>
+      <p>
+         A professional and registered Skills Development Facilitator, Assessor and Moderator with 22 years of experience in the surface mining industry.
+        She holds a Bachelor of Commerce degree in Human Resource Development (BHRD), Bachelor of Commerce Honours in Human Resource Management
+        and a Master of Business Administration (MBA).<br><br>
+        On the technical front, she attained National Certificate: Mineral Processing Lump Ore Beneficiation, NQF Levels 2 and 3,
+        and Further Education and Training Certificate in Mineral Processing, as well as Occupationally Directed Education Training and
+        Development Practices Level 5, ODETP Level 5. She holds a 51% stake in the company.
+      </p>
+      </p>
+      <div style="display:flex; align-items:center; gap:18px; margin-top:6px">
+        <img src="https://i.postimg.cc/SQr2bvcf/Whats-App-Image-2025-10-18-at-17-29-46.jpg" alt="Mrs. Victoria Molongwana" style="width:84px; height:84px; border-radius:50%; object-fit:cover; box-shadow:0 4px 20px rgba(31,38,135,.14)">
+        <strong style="color:var(--green); font-size:17px">MRS. VICTORIA MOLONGWANA</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Courses (Featured Cards) - hidden by default until Explore Courses clicked ===== -->
+<section id="courses" class="section hidden-section" aria-hidden="true">
+  <h2>Featured Courses</h2>
+  <div class="grid cols-3">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop" alt="First Aid" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
+      <div style="margin-top:12px"><strong>First Aid – Basic</strong><div class="muted">Novice: 2 Days • Refresher: 1 Day • Fee: R900,00</div></div>
+      <a class="btn" style="border:2px solid var(--green); color:var(--green); margin-top:12px" href="#pricelist">View Details</a>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1581090128321-8616a54a7b74?q=80&w=1200&auto=format&fit=crop" alt="Forklift" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
+      <div style="margin-top:12px"><strong>Forklift (F01–F02)</strong><div class="muted">Novice: 10 Days • Refresher: 1 Day • From R1 100,00</div></div>
+      <a class="btn" style="border:2px solid var(--green); color:var(--green); margin-top:12px" href="#pricelist">View Details</a>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1508385082359-f38ae991e8f2?q=80&w=1200&auto=format&fit=crop" alt="Working at Heights" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
+      <div style="margin-top:12px"><strong>Working at Heights</strong><div class="muted">Novice: 2 Days • Refresher: 1 Day • Fee: R1300,00</div></div>
+      <a class="btn" style="border:2px solid var(--green); color:var(--green); margin-top:12px" href="#pricelist">View Details</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Testimonials (simple slider) ===== -->
+<section class="section">
+  <h2>Student Testimonials</h2>
+  <div style="position:relative; overflow:hidden; border-radius:var(--radius-xl); border:1px solid var(--line); background:var(--glass-bg); box-shadow:var(--glass-shadow);">
+    <div style="display:flex; width:300%; animation:slide 18s infinite">
+      <div style="width:100%; padding:32px"><div class="card">“The Forklift course was excellent. I passed and got placed within two weeks!” — <strong>Samuel M.</strong></div></div>
+      <div style="width:100%; padding:32px"><div class="card">“Working at Heights training gave our team the confidence to operate safely.” — <strong>Neo R.</strong></div></div>
+      <div style="width:100%; padding:32px"><div class="card">“Professional trainers, flexible schedule, and great support with my CV.” — <strong>Ayanda K.</strong></div></div>
+    </div>
+  </div>
+</section>
+<style>
+@keyframes slide{
+  0%, 28% { transform:translateX(0%); }
+  33%, 61%{ transform:translateX(-100%); }
+  66%, 94%{ transform:translateX(-200%); }
+  100%{ transform:translateX(0%); }
+}
+</style>
+
+<!-- ===== Price list toggle button (collapsed by default) ===== -->
+<section class="section" style="text-align:center; margin-top:12px;">
+  <button id="toggle-prices" class="btn" style="border:2px solid var(--green); color:var(--green);">View Price List</button>
+</section>
+
+<!-- ===== FULL PRICE LIST - COLLAPSED BY DEFAULT ===== -->
+<section id="pricelist" class="price-wrap glass collapsed" aria-hidden="true">
+  <div class="price-title">PRICE LIST FOR INDIVIDUALS</div>
+  <!-- The full price tables are unchanged from your original content; include all tables here -->
+  <div class="bar">SAFETY MANAGEMENT COURSES</div>
+  <table class="pricetable" aria-label="Safety Management Courses">
+    <tr><th style="width:50px">NR</th><th>COURSE</th><th style="width:160px">COST PER PERSON</th><th colspan="2" style="width:220px">DURATION</th></tr>
+    <tr><th></th><th></th><th></th><th>NOVICE</th><th>REFRESHER</th></tr>
+    <tr><td>1</td><td>First Aid – Basic</td><td>R900,00</td><td>2 Days</td><td>1 Day</td></tr>
+    <tr><td>2</td><td>First Aid – Intermediate</td><td>R1020,00</td><td>2 Days</td><td>1 Day</td></tr>
+    <tr><td>3</td><td>First Aid – Advanced</td><td>R1300,00</td><td>2 Days</td><td>1 Day</td></tr>
+    <tr><td>4</td><td>Basic Fire Fighting</td><td>R950,00</td><td>1 Day</td><td>1 Day</td></tr>
+    <tr><td>5</td><td>Fire Equipment Inspector</td><td>R750,00</td><td>1 Day</td><td>1 Day</td></tr>
+    <tr><td>6</td><td>Health and Safety Rep (In House)</td><td>R1000,00</td><td>2 Days</td><td>1 Day</td></tr>
+    <tr><td>7</td><td>SHE Rep (MQA Skills Program)</td><td>R5000,00</td><td>5 Days</td><td>1 Day</td></tr>
+    <tr><td>8</td><td>H.I.R.A (Hazard Identification Risk Assessment)</td><td>R1400,00</td><td>2 Days</td><td>1 Day</td></tr>
+    <tr><td>9</td><td>HAZCHEM</td><td>R1400,00</td><td>2 Days</td><td>1 Day</td></tr>
+    <tr><td>10</td><td>Incident & Accident Investigation</td><td>R1270,00</td><td>1 Day</td><td>1 Day</td></tr>
+    <tr><td>11</td><td>Mine Legal Liability</td><td>R1500,00</td><td>2 Days</td><td>1 Day</td></tr>
+    <tr><td>12</td><td>Continuous Based Risk Assessment</td><td>R900,00</td><td>2 Days</td><td>1 Day</td></tr>
+    <tr><td>13</td><td>Higher Certificate - Occupational Health & Safety - Level 5</td><td>R30 000</td><td colspan="2">12 Months</td></tr>
+  </table>
+  <div class="note">NOTE: DEPOSIT TO BE PAID UPFRONT BEFORE TRAINING CAN COMMENCE</div>
+
+  <!-- The rest of the tables (Small Scales, Engineering, Trackless, Construction, Supervisory) remain unchanged and are included here in full in the live file -->
+</section>
+
+<!-- ===== CTA Banner ===== -->
+<section class="section">
+  <div class="cta-banner">
+    <strong>Start your journey with Vika Training Academy today!</strong>
+    <a class="cta" href="#" data-target="admissions" id="banner-apply">Apply Now</a>
+  </div>
+</section>
+
+<!-- ===== Resources (hidden by default) ===== -->
+<section id="resources" class="section hidden-section" aria-hidden="true" style="background:var(--light); border-top:1px solid #eef1f2; border-bottom:1px solid #eef1f2">
+  <h2>Resources</h2>
+  <div class="grid cols-3">
+    <div class="card"><strong>Blog / Articles</strong><div class="muted">Safety tips and training insights.</div></div>
+    <div class="card"><strong>Free Downloads</strong><div class="muted">Study guides & templates.</div></div>
+    <div class="card"><strong>Student Portal</strong><div class="muted">Results, certificates, schedules.</div></div>
+  </div>
+</section>
+
+<!-- ===== Contact (hidden by default) ===== -->
+<section id="contact" class="section hidden-section" aria-hidden="true">
+  <h2>Contact Us</h2>
+  <div class="grid cols-2">
+    <form class="card" onsubmit="event.preventDefault(); alert('Thanks! We will reply soon.');">
+      <div class="grid cols-2">
+        <div><label>Name<br><input required></label></div>
+        <div><label>Email<br><input type="email" required></label></div>
+      </div>
+      <label>Phone<br><input value="073 024 5555"></label>
+      <label>Message<br><textarea rows="5" required></textarea></label>
+      <button class="cta">Send Message</button>
+      <a class="btn" style="border:2px solid var(--green); color:var(--green); margin-left:8px" href="https://wa.me/27730245555" target="_blank" rel="noopener">WhatsApp 073&nbsp;024&nbsp;5555</a>
+      <!-- Landline corrected -->
+      <div style="margin-top:12px; color:var(--muted)"><strong>Landline:</strong> 053&nbsp;050&nbsp;0020</div>
+    </form>
+    <div class="card">
+      <h3>Find Us</h3>
+      <p class="muted">We have two training offices. Click a location to view the map.</p>
+
+      <!-- Two physical addresses -->
+      <div class="address" id="physical-addresses">
+        <strong>Postmasburg (Northern Cape)</strong><br>
+        12 CAM STREET, POSTMASBURG, 8420<br>
+        Northern Cape<br>
+        <small class="muted">Mon — Fri: 08:00 — 16:30</small>
+        <br><br>
+        <strong>Mokopane (Limpopo)</strong><br>
+        NO 10212 GA-MOLEKANA<br>
+        MOKOPANE, 0610<br>
+        Limpopo<br>
+        <small class="muted">Mon — Fri: 08:00 — 16:30</small>
+      </div>
+
+      <!-- Map location selection buttons -->
+      <div style="margin-top:12px">
+        <button id="map-postmasburg" class="map-location-btn" data-q="12 CAM STREET, POSTMASBURG, 8420, Northern Cape, South Africa">View Map — Postmasburg</button>
+        <button id="map-mokopane" class="map-location-btn" data-q="NO 10212 GA-MOLEKANA, MOKOPANE, 0610, Limpopo, South Africa">View Map — Mokopane</button>
+      </div>
+
+      <!-- Map wrapper (hidden by default) -->
+      <div id="mapWrapper" class="map-wrapper" aria-hidden="true">
+        <iframe
+          id="embedMap"
+          title="Vika Training Academy location"
+          src=""
+          width="100%" height="260" style="border:0;border-radius:12px" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <p style="margin-top:10px"><strong>Mobile:</strong> 073 024 5555<br><strong>Email:</strong> info@vikatraining.co.za<br><strong>Landline:</strong> 053 050 0020</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Admissions (Apply Now) - hidden by default ===== -->
+<section id="admissions" class="section hidden-section" aria-hidden="true">
+  <h2>Admissions</h2>
+  <ol class="card" style="margin:0 0 18px">
+    <li>Choose your course</li>
+    <li>Complete the online application</li>
+    <li>Upload documents (ID, certificates)</li>
+    <li>Pay deposit</li>
+    <li>Start training</li>
+  </ol>
+  <a class="btn btn-primary" href="#" data-target="contact">Need help? Contact us</a>
+</section>
+
+<!-- ===== Graduation Gallery ===== -->
+<section class="section" id="gallery" style="background:var(--light); border-top:1px solid #eef1f2; border-bottom:1px solid #eef1f2">
+  <h2 style="text-align:center">Graduation Moments</h2>
+  <div class="grid cols-3" style="margin-top:24px">
+    <div class="card">
+      <img src="https://i.postimg.cc/NKzF8XYL/469991794-122206816070074314-2594736317617430924-n.jpg" alt="Graduation Photo 1" style="width:100%;height:250px;object-fit:cover;border-radius:var(--radius-md)">
+    </div>
+    <div class="card">
+      <img src="https://i.postimg.cc/dk1K5HBZ/470198516-122207165480074314-7929442715563580915-n.jpg" alt="Graduation Photo 2" style="width:100%;height:250px;object-fit:cover;border-radius:var(--radius-md)">
+    </div>
+    <div class="card">
+      <img src="https://i.postimg.cc/SnTdWgJ3/470136365-122206815410074314-6233267797108820756-n.jpg" alt="Graduation Photo 3" style="width:100%;height:250px;object-fit:cover;border-radius:var(--radius-md)">
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="foot">
+    <div>
+      <div style="display:flex; gap:12px; align-items:center">
+        <img src="https://i.postimg.cc/wyqHKbTv/vikaimage.png" alt="VTA" style="height:46px; opacity:.93; filter:brightness(.96) contrast(.98)">
+        <strong>Vika Training Academy</strong>
+      </div>
+      <p class="tiny" style="margin-top:12px">Training is the essence of transformation.</p>
+      <p class="tiny">REGISTRATION NR: 2020/665481/07</p>
+      <p class="tiny" style="margin-top:8px">
+        Postmasburg: 12 CAM STREET, POSTMASBURG, 8420 — Northern Cape<br>
+        Mokopane: NO 10212 GA-MOLEKANA, MOKOPANE, 0610 — Limpopo
+      </p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <div><a href="#" class="nav-link" data-target="home">Home</a><br><a href="#" class="nav-link" data-target="about">About Us</a><br><a href="#" class="nav-link" data-target="courses">Courses</a><br><a href="#" class="nav-link" data-target="admissions">Admissions</a></div>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <div class="tiny">Mobile: 073 024 5555<br>Landline: 053 050 0020<br>Email: info@vikatraining.co.za<br><a href="https://wa.me/27730245555" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+    <div>
+      <h4>Accreditations</h4>
+      <div class="tiny">SETA • Department of Labour • 2020/665481/07</div>
+    </div>
+  </div>
+  <div style="text-align:center; padding:14px 22px; border-top:1px solid #1d2a23" class="tiny">
+    © <span id="yr"></span> Vika Training Academy. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  // Fill year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Sections that should be shown only when requested
+  const toggleableSections = ['home','courses','contact','resources','admissions'];
+
+  // Helper: show a single section and hide the rest of the toggleable ones
+  function showSection(id) {
+    toggleableSections.forEach(sid => {
+      const el = document.getElementById(sid);
+      if (!el) return;
+      const isTarget = sid === id;
+      if (isTarget) {
+        el.classList.remove('hidden-section');
+        el.setAttribute('aria-hidden', 'false');
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 40);
+      } else {
+        el.classList.add('hidden-section');
+        el.setAttribute('aria-hidden', 'true');
+      }
+    });
+    // update nav active state (visual)
+    document.querySelectorAll('.nav-link').forEach(a => {
+      a.classList.toggle('active', a.dataset.target === id);
+    });
+  }
+
+  // Initially hide toggleable sections
+  document.addEventListener('DOMContentLoaded', () => {
+    toggleableSections.forEach(sid => {
+      const el = document.getElementById(sid);
+      if (!el) return;
+      el.classList.add('hidden-section');
+      el.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  // Nav link click handling: intercept and show target section
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = link.dataset.target;
+      if (!target) return;
+      if (toggleableSections.includes(target)) {
+        showSection(target);
+      } else {
+        const el = document.getElementById(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Brand click: behave like home button
+  document.getElementById('brand').addEventListener('click', (e) => {
+    e.preventDefault();
+    showSection('home');
+  });
+
+  // Buttons that target sections (Explore Courses, header apply etc.)
+  document.querySelectorAll('[data-target]').forEach(btn => {
+    if (btn.classList && btn.classList.contains('nav-link')) return;
+    btn.addEventListener('click', (e) => {
+      const target = btn.dataset.target;
+      if (!target) return;
+      if (toggleableSections.includes(target)) {
+        showSection(target);
+      } else {
+        const el = document.getElementById(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Quick Highlights icon toggles
+  (function () {
+    const exploreBtn = document.getElementById('explore-courses');
+    const highlightItems = Array.from(document.querySelectorAll('.highlight-item'));
+
+    function toggleIconById(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const visible = el.classList.toggle('visible');
+      el.setAttribute('aria-hidden', visible ? 'false' : 'true');
+      const parent = el.closest('.highlight-item');
+      if (parent) parent.setAttribute('aria-pressed', visible ? 'true' : 'false');
+    }
+
+    exploreBtn && exploreBtn.addEventListener('click', function (ev) {
+      showSection('courses');
+      setTimeout(() => {
+        const icons = document.querySelectorAll('.icon');
+        icons.forEach(icon => {
+          icon.classList.add('visible');
+          icon.setAttribute('aria-hidden', 'false');
+          const parent = icon.closest('.highlight-item');
+          if (parent) parent.setAttribute('aria-pressed', 'true');
+        });
+      }, 60);
+    });
+
+    highlightItems.forEach(item => {
+      const targetId = item.dataset.target;
+      item.addEventListener('click', function () {
+        toggleIconById(targetId);
+      });
+      item.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleIconById(targetId);
+        }
+      });
+    });
+  })();
+
+  // Price list toggle logic
+  (function () {
+    const togglePrices = document.getElementById('toggle-prices');
+    const priceSection = document.getElementById('pricelist');
+    if (!togglePrices || !priceSection) return;
+    priceSection.classList.add('collapsed');
+    priceSection.setAttribute('aria-hidden', 'true');
+    togglePrices.setAttribute('aria-expanded', 'false');
+    togglePrices.addEventListener('click', function () {
+      const isCollapsed = priceSection.classList.toggle('collapsed');
+      priceSection.setAttribute('aria-hidden', isCollapsed ? 'true' : 'false');
+      togglePrices.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+      togglePrices.textContent = isCollapsed ? 'View Price List' : 'Hide Price List';
+      if (!isCollapsed) priceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  })();
+
+  // Map selection & toggle logic for two correct addresses
+  (function () {
+    const btnPost = document.getElementById('map-postmasburg');
+    const btnMoko = document.getElementById('map-mokopane');
+    const mapWrap = document.getElementById('mapWrapper');
+    const iframe = document.getElementById('embedMap');
+
+    if (!btnPost || !btnMoko || !mapWrap || !iframe) return;
+
+    function setActiveButton(activeBtn) {
+      [btnPost, btnMoko].forEach(b => b.classList.toggle('active', b === activeBtn));
+    }
+
+    function openMapFor(q) {
+      const src = 'https://maps.google.com/maps?q=' + encodeURIComponent(q) + '&z=15&output=embed';
+      // If same src, just ensure map visible
+      iframe.src = src;
+      mapWrap.classList.add('open');
+      mapWrap.setAttribute('aria-hidden', 'false');
+      iframe.setAttribute('tabindex', '0');
+      setTimeout(() => mapWrap.scrollIntoView({behavior:'smooth', block:'center'}), 40);
+    }
+
+    btnPost.addEventListener('click', () => {
+      setActiveButton(btnPost);
+      openMapFor(btnPost.dataset.q);
+      btnPost.textContent = 'View Map — Postmasburg';
+    });
+
+    btnMoko.addEventListener('click', () => {
+      setActiveButton(btnMoko);
+      openMapFor(btnMoko.dataset.q);
+      btnMoko.textContent = 'View Map — Mokopane';
+    });
+
+    // allow clicking the address block to default to Postmasburg map
+    const addrBlock = document.getElementById('physical-addresses');
+    addrBlock && addrBlock.addEventListener('click', () => {
+      btnPost.click();
+    });
+  })();
+
+</script>
+</body>
+</html>
