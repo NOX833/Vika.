@@ -216,7 +216,7 @@
 </header>
 
 <!-- ===== Hero (home) ===== -->
-<section id="home" class="hero hidden-section" aria-hidden="true">
+<section id="home" class="hero" aria-hidden="false">
   <div class="wrap">
     <div class="glass">
       <h1>Empowering Futures Through Quality Training</h1>
@@ -230,9 +230,10 @@
     <div class="card">
       <h3>Quick Highlights</h3>
       <div class="grid cols-2" style="margin-top:12px">
-        <div class="highlight-item" data-target="icon-1" role="button" tabindex="0" aria-pressed="false" aria-label="Toggle Accredited icon">
+        <div class="highlight-item" data-target="icon-1" role="button" tabindex="0" aria-pressed="true" aria-label="Toggle Accredited icon">
           <div style="display:flex; gap:14px; align-items:center">
-            <div id="icon-1" class="icon" aria-hidden="true">✓</div>
+            <!-- icon-1 is intentionally visible by default (rest remain hidden until toggled) -->
+            <div id="icon-1" class="icon visible" aria-hidden="false">✓</div>
             <div><strong>Accredited</strong><div class="muted">Registered & quality-assured</div></div>
           </div>
         </div>
@@ -263,7 +264,7 @@
 </section>
 
 <!-- ===== About (with Accreditation) ===== -->
-<section id="about" class="section" style="background:var(--light); border-top:1px solid #eef1f2; border-bottom:1px solid #eef1f2">
+<section id="about" class="section hidden-section" aria-hidden="true" style="background:var(--light); border-top:1px solid #eef1f2; border-bottom:1px solid #eef1f2">
   <div class="grid cols-2">
     <div class="card">
       <h2>About Us</h2>
@@ -326,17 +327,17 @@
   <h2>Featured Courses</h2>
   <div class="grid cols-3">
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop" alt="First Aid" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
+      <img src="https://i.postimg.cc/X7BZhck7/Whats-App-Image-2025-10-26-at-14-31-52.jpg" alt="First Aid" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
       <div style="margin-top:12px"><strong>First Aid – Basic</strong><div class="muted">Novice: 2 Days • Refresher: 1 Day • Fee: R900,00</div></div>
       <a class="btn" style="border:2px solid var(--green); color:var(--green); margin-top:12px" href="#pricelist">View Details</a>
     </div>
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1581090128321-8616a54a7b74?q=80&w=1200&auto=format&fit=crop" alt="Forklift" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
+      <img src="https://i.postimg.cc/0j4FMqz8/Whats-App-Image-2025-10-26-at-14-19-30.jpg" alt="Forklift" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
       <div style="margin-top:12px"><strong>Forklift (F01–F02)</strong><div class="muted">Novice: 10 Days • Refresher: 1 Day • From R1 100,00</div></div>
       <a class="btn" style="border:2px solid var(--green); color:var(--green); margin-top:12px" href="#pricelist">View Details</a>
     </div>
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1508385082359-f38ae991e8f2?q=80&w=1200&auto=format&fit=crop" alt="Working at Heights" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
+      <img src="https://i.postimg.cc/nV1LsSVg/Whats-App-Image-2025-10-26-at-14-16-16.jpg" alt="Working at Heights" style="width:100%;height:160px;object-fit:cover;border-radius:var(--radius-md)">
       <div style="margin-top:12px"><strong>Working at Heights</strong><div class="muted">Novice: 2 Days • Refresher: 1 Day • Fee: R1300,00</div></div>
       <a class="btn" style="border:2px solid var(--green); color:var(--green); margin-top:12px" href="#pricelist">View Details</a>
     </div>
@@ -557,11 +558,17 @@
     });
   }
 
-  // Initially hide toggleable sections
+  // Initially hide toggleable sections EXCEPT 'home' so Home is visible on load
   document.addEventListener('DOMContentLoaded', () => {
     toggleableSections.forEach(sid => {
       const el = document.getElementById(sid);
       if (!el) return;
+      if (sid === 'home') {
+        // ensure home remains visible on initial load
+        el.classList.remove('hidden-section');
+        el.setAttribute('aria-hidden', 'false');
+        return;
+      }
       el.classList.add('hidden-section');
       el.setAttribute('aria-hidden', 'true');
     });
